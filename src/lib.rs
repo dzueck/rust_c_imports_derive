@@ -63,33 +63,7 @@ impl Parse for Value {
     }
 }
 
-// This macro will take input of:
-// const CONST_NAME: type in "./path/to/a/header/containing/CONST_NAME";
-// It will be converted to:
-// const CONST_NAME: type = VALUE OF #define IN THE GIVEN HEADER
-//
-// exe: 
-// const NUM_PROCESSORS: usize in "../include/octopos/mailbox.h";
-// converts to:
-// const NUM_PROCESSORS: usize = 12;
-// if the header contained:
-// #define NUM_PROCESSORS 12
-//
-// Note: The path is based on the root of the crate not the source file location
-// Note: This macro will make the source file recompile if the header is updated
-// Note: The value after #define will be treated as rust source code. 
-//       If it is dependent on another macro or is not valid rust syntax it will not work.
-//       It essentially just copy pastes the value after the #define NAME
-//       It will work if it is based on other macros if you also include thoes other defines in the macro
-//
-// Note: You can have multiple of these statments in a macro block, but it must only contain these declerations
-// exe:
-// from_c_header! {
-//     const FIFO_OS_TO_TIMER: &str in "../arch/umode/include/arch/timer.h";
-//     const FIFO_TIMER_TO_OS: &str in "../arch/umode/include/arch/timer.h";
-//     const FIFO_TIMER_TO_MAILBOX: &str in "../arch/umode/include/arch/timer.h";
-//     const FIFO_TIMER_LOG: &str in "../arch/umode/include/arch/timer.h";
-// }
+
 #[proc_macro]
 pub fn from_c_header(input: TokenStream) -> TokenStream {
     // quote! used to make output a proc_macro2 TokenStream
